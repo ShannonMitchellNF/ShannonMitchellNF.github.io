@@ -1,28 +1,7 @@
 (function () {
   'use strict';
 
-  function getCampaignUrlFromComment(key) {
-    var pattern = new RegExp(key + '=([^\\s]+)');
-    for (var i = 0; i < document.childNodes.length; i++) {
-      var node = document.childNodes[i];
-      if (node.nodeType !== Node.COMMENT_NODE) {
-        continue;
-      }
-      var match = node.textContent.match(pattern);
-      if (match) {
-        return match[1];
-      }
-    }
-    return null;
-  }
-
-  var lawnSignFormUrl = getCampaignUrlFromComment('lawnSignForm');
-  if (lawnSignFormUrl) {
-    document.querySelectorAll('.js-lawn-sign-form').forEach(function (link) {
-      link.href = lawnSignFormUrl;
-    });
-  }
-
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const navToggle = document.querySelector('.nav-toggle');
   const siteNav = document.querySelector('.site-nav');
   const navLinks = document.querySelectorAll('.site-nav a, .footer-nav a');
@@ -49,14 +28,39 @@
     });
   }
 
+  function animateCount(el) {
+    const target = Number(el.getAttribute('data-count'));
+    if (!Number.isFinite(target)) return;
+
+    const suffix = el.getAttribute('data-suffix') || '';
+    const duration = 1100;
+    const start = performance.now();
+
+    function frame(now) {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const value = Math.round(target * eased);
+      el.textContent = value.toLocaleString('en-CA') + suffix;
+      if (t < 1) requestAnimationFrame(frame);
+    }
+
+    requestAnimationFrame(frame);
+  }
+
   const revealElements = document.querySelectorAll('.reveal');
+
+  function onReveal(el) {
+    el.classList.add('visible');
+    if (prefersReducedMotion) return;
+    el.querySelectorAll('[data-count]').forEach(animateCount);
+  }
 
   if ('IntersectionObserver' in window && revealElements.length) {
     const observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
+            onReveal(entry.target);
             observer.unobserve(entry.target);
           }
         });
@@ -64,12 +68,23 @@
       { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
     );
 
-    revealElements.forEach(function (el) {
+    revealElements.forEach(function (el, index) {
+      el.style.transitionDelay = prefersReducedMotion ? '0ms' : Math.min(index * 40, 280) + 'ms';
       observer.observe(el);
     });
   } else {
     revealElements.forEach(function (el) {
-      el.classList.add('visible');
+      onReveal(el);
+    });
+  }
+
+  if (prefersReducedMotion) {
+    document.querySelectorAll('[data-count]').forEach(function (el) {
+      const target = Number(el.getAttribute('data-count'));
+      const suffix = el.getAttribute('data-suffix') || '';
+      if (Number.isFinite(target)) {
+        el.textContent = target.toLocaleString('en-CA') + suffix;
+      }
     });
   }
 
