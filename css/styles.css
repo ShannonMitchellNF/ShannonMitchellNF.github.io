@@ -1,4 +1,4 @@
-/* Mitchell 2026 Campaign — Brand Styles */
+/* Mitchell 2026 — Re-elected thank-you site (brand preserved) */
 :root {
   --orange: #F16538;
   --orange-dark: #C6401A;
@@ -157,7 +157,7 @@ a:hover {
 .site-nav {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .site-nav a {
@@ -230,9 +230,27 @@ a:hover {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 80% 60% at 90% 20%, rgba(241, 101, 56, 0.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 10% 80%, rgba(254, 199, 32, 0.15) 0%, transparent 55%);
+    radial-gradient(ellipse 80% 60% at 90% 20%, rgba(241, 101, 56, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 10% 80%, rgba(254, 199, 32, 0.18) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.35) 0%, transparent 45%);
   pointer-events: none;
+}
+
+.hero-glow {
+  position: absolute;
+  width: min(42vw, 420px);
+  height: min(42vw, 420px);
+  top: -8%;
+  right: 8%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(254, 199, 32, 0.28) 0%, transparent 70%);
+  pointer-events: none;
+  animation: glow-breathe 6s ease-in-out infinite;
+}
+
+@keyframes glow-breathe {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
 }
 
 .hero-grid {
@@ -269,13 +287,19 @@ a:hover {
   display: inline-block;
   align-self: flex-start;
   padding: 0.35rem 0.85rem;
-  background: var(--white);
-  color: var(--orange);
+  background: var(--navy);
+  color: var(--yellow);
   font-size: clamp(0.75rem, 2vw, 0.875rem);
   font-weight: 900;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   box-shadow: var(--shadow);
+  animation: badge-in 0.7s ease both;
+}
+
+@keyframes badge-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .hero-name {
@@ -327,6 +351,191 @@ a:hover {
   border: 3px solid var(--yellow);
   border-radius: var(--radius-lg);
   z-index: -1;
+}
+
+.hero--win .hero-photo::after {
+  content: '2026';
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--white);
+  color: var(--navy);
+  font-size: 0.75rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: var(--shadow);
+}
+
+/* Election results */
+.results-band {
+  padding: var(--space-section) 0;
+  background: var(--white);
+  border-block: 1px solid rgba(32, 63, 74, 0.06);
+}
+
+.results-header {
+  text-align: center;
+  max-width: var(--content-width);
+  margin: 0 auto var(--space-block);
+}
+
+.results-header h2 {
+  font-size: clamp(1.625rem, 3.5vw, 2.35rem);
+  font-weight: 900;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+}
+
+.results-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: var(--space-block);
+}
+
+.stat {
+  text-align: center;
+  padding: clamp(1.1rem, 2vw, 1.5rem) 0.75rem;
+  background: var(--cream);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(32, 63, 74, 0.05);
+}
+
+.stat-value {
+  display: block;
+  font-size: clamp(1.5rem, 3.5vw, 2.15rem);
+  font-weight: 900;
+  color: var(--navy);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.stat-ordinal {
+  font-size: 0.55em;
+  vertical-align: super;
+  margin-left: 0.05em;
+}
+
+.stat-label {
+  display: block;
+  margin-top: 0.35rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.results-table-wrap {
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9375rem;
+}
+
+.results-table th,
+.results-table td {
+  padding: 0.85rem 0.75rem;
+  text-align: left;
+  border-bottom: 1px solid rgba(32, 63, 74, 0.08);
+  vertical-align: middle;
+}
+
+.results-table thead th {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom-color: rgba(32, 63, 74, 0.14);
+}
+
+.results-table tbody th {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.results-table td:nth-child(2) {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.results-table td:nth-child(3) {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+  min-width: 9rem;
+}
+
+.results-row--win {
+  background: linear-gradient(90deg, rgba(241, 101, 56, 0.1) 0%, rgba(254, 199, 32, 0.08) 100%);
+}
+
+.results-row--win th,
+.results-row--win td {
+  border-bottom-color: rgba(241, 101, 56, 0.2);
+}
+
+.win-pill {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.15rem 0.45rem;
+  background: var(--orange);
+  color: var(--white);
+  font-size: 0.65rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  vertical-align: middle;
+}
+
+.win-pill--alt {
+  background: var(--navy);
+}
+
+.bar-wrap {
+  display: inline-block;
+  width: 4.5rem;
+  height: 0.4rem;
+  margin-right: 0.55rem;
+  background: rgba(32, 63, 74, 0.08);
+  border-radius: 999px;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, var(--orange), var(--yellow));
+  border-radius: inherit;
+  transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.results-table-wrap.visible .bar,
+.results-band .reveal.visible .bar {
+  width: var(--pct);
+}
+
+.results-source {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.results-source a {
+  font-weight: 700;
 }
 
 /* Buttons */
@@ -414,7 +623,6 @@ a:hover {
 
 .section-header h2,
 .about-content h2,
-.lawn-sign-content h2,
 .cta-content h2 {
   font-size: clamp(1.625rem, 3.5vw, 2.35rem);
   font-weight: 900;
@@ -710,53 +918,6 @@ a:hover {
   color: var(--orange);
 }
 
-/* Lawn sign */
-.lawn-sign {
-  background: var(--navy);
-  color: var(--cream);
-}
-
-.lawn-sign-inner {
-  display: grid;
-  grid-template-columns: minmax(200px, 0.75fr) 1.25fr;
-  gap: clamp(2rem, 4vw, 3.5rem);
-  align-items: center;
-}
-
-.lawn-sign-art {
-  margin: 0;
-  justify-self: center;
-  width: min(100%, 20rem);
-}
-
-.lawn-sign-art img {
-  width: 100%;
-  max-height: min(13.5rem, 36vw);
-  object-fit: contain;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-}
-
-.lawn-sign-content h2 {
-  font-size: clamp(1.625rem, 3.5vw, 2.35rem);
-  font-weight: 900;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
-  color: var(--white);
-  margin-bottom: 1rem;
-}
-
-.lawn-sign-content p {
-  color: rgba(248, 244, 232, 0.88);
-  max-width: 36rem;
-  line-height: 1.65;
-  margin-bottom: 1.5rem;
-}
-
-.lawn-sign .section-label {
-  color: var(--yellow);
-}
-
 /* CTA */
 .cta {
   padding: var(--space-section) 0;
@@ -908,8 +1069,7 @@ a:hover {
 /* Responsive */
 @media (max-width: 900px) {
   .hero-grid,
-  .about-grid,
-  .lawn-sign-inner {
+  .about-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -931,12 +1091,8 @@ a:hover {
     max-height: 320px;
   }
 
-  .lawn-sign-art {
-    width: min(100%, 17.5rem);
-  }
-
-  .lawn-sign-art img {
-    max-height: min(11.5rem, 32vw);
+  .results-stats {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .card-grid {
@@ -976,7 +1132,7 @@ a:hover {
   }
 }
 
-@media (max-width: 960px) {
+@media (max-width: 768px) {
   .nav-toggle {
     display: flex;
   }
@@ -1012,9 +1168,7 @@ a:hover {
   .site-nav a::after {
     display: none;
   }
-}
 
-@media (max-width: 768px) {
   .priority {
     grid-template-columns: 1fr;
     gap: 0.75rem;
@@ -1026,6 +1180,26 @@ a:hover {
 
   .gallery-grid {
     grid-template-columns: 1fr;
+  }
+
+  .results-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 0.7rem 0.4rem;
+    font-size: 0.875rem;
+  }
+
+  .bar-wrap {
+    display: none;
+  }
+
+  .win-pill {
+    display: block;
+    width: fit-content;
+    margin: 0.35rem 0 0;
   }
 
   .section-header {
@@ -1044,9 +1218,20 @@ a:hover {
     transition: none;
   }
 
+  .hero-glow,
+  .hero-badge {
+    animation: none;
+  }
+
+  .bar {
+    width: var(--pct);
+    transition: none;
+  }
+
   .btn:hover,
   .card:hover,
-  .logo:hover {
+  .logo:hover,
+  .gallery-item:hover {
     transform: none;
   }
 }
